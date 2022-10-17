@@ -1,4 +1,4 @@
-# mavonEditor
+# GalaxyMavonEditor
 
 | Vue2 | [![npm](https://img.shields.io/npm/v/mavon-editor/latest.svg)](https://www.npmjs.com/package/mavon-editor/v/latest) |
 | ---- | ------------------------------------------------------------ |
@@ -107,6 +107,7 @@ export default {
 | ------------ | :-----: | :---------: | ---------------------------------------- |
 | value        | String  |             | 初始值                                     |
 | language     | String  |     zh-CN      | 语言选择，暂支持 zh-CN: 简体中文, zh-TW: 正体中文 ， en: 英文 ， fr: 法语， pt-BR: 葡萄牙语， ru: 俄语， de: 德语， ja: 日语 |
+| languageText     | Object |    {}    |  替换文案文本（参考语言包文件的key&vale）  |
 | fontSize     | String  |     14px      | 编辑区域文字大小 |
 | scrollStyle  | Boolean |    true     | 开启滚动条样式(暂时仅支持chrome)              |
 | boxShadow     | Boolean  |     true     | 开启边框阴影                |

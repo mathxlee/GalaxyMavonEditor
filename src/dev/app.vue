@@ -35,7 +35,9 @@
               </div>
             </div>
             <mavon-editor ref=md :subfield="subfield" :toolbarsFlag="toolbarsFlag" :editable="editable"
-                          :language="d_language" @change="change" @save="saveone" :ishljs="true" class="item-editor" v-model="help1"
+                          :language="d_language"
+                          :languageText="languageText"
+                          @change="change" @save="saveone" :ishljs="true" class="item-editor" v-model="help1"
                           :autofocus="autofocus"
                           :shortCut="true"
                           :externalLink="external_link"
@@ -70,8 +72,7 @@
             <h2 class="item-header">
                 {{d_words.customize_setting}}
             </h2>
-            <mavon-editor :language="d_language" @save="savetwo" :toolbars="toolbars" class="item-editor"
-                          v-model="help2"></mavon-editor>
+            <mavon-editor :language="d_language" @save="savetwo" :toolbars="toolbars" class="item-editor" v-model="help2" :languageText="languageText"></mavon-editor>
         </div>
         <div class="item">
       <span style="display: block;margin: 30px 0 15px 0;color: #1e6bb8" class="">
@@ -93,6 +94,7 @@
         name: 'app',
         data () {
             return {
+                languageText: {},
                 d_language: 'zh-CN',
                 help1: '',
                 help2: '',
