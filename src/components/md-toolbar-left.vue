@@ -116,17 +116,17 @@
         <transition name="fade">
             <div class="add-image-link-wrapper"  v-if="s_img_link_open">
                 <div class="add-image-link">
-                    <i @click.stop.prevent="s_img_link_open = false" class="fa fa-mavon-times"
-                       aria-hidden="true"></i>
+                    <i @click.stop.prevent="s_img_link_open = false" class="fa fa-mavon-times" aria-hidden="true"></i>
                     <h3 class="title">{{link_type == 'link' ? d_words.tl_popup_link_title : d_words.tl_popup_img_link_title}}</h3>
                     <div class="link-text input-wrapper">
-                        <input ref="linkTextInput" type="text" v-model="link_text" :placeholder="link_type == 'link' ? d_words.tl_popup_link_text : d_words.tl_popup_img_link_text">
+                        <input ref="linkTextInput" type="text" @input="$clearWarning()" v-model="link_text" :placeholder="link_type == 'link' ? d_words.tl_popup_link_text : d_words.tl_popup_img_link_text">
                     </div>
-                    <div class="link-addr input-wrapper">
-                        <input type="text" v-model="link_addr" :placeholder="link_type == 'link' ? d_words.tl_popup_link_addr : d_words.tl_popup_img_link_addr">
+                    <div :class="[ 'link-addr input-wrapper', { 'not-valid': show_warning } ]">
+                        <input type="text" @input="$clearWarning()" v-model="link_addr" :placeholder="link_type == 'link' ? d_words.tl_popup_link_addr : d_words.tl_popup_img_link_addr">
+                        <p class="message">The link is not valid, please check if you are missing https:// or http://</p>
                     </div>
+                    <div :class="[ 'op-btn sure', { disabled: !is_link_available } ]" @click.stop="$imgLinkAdd()">{{d_words.tl_popup_link_sure}}</div>
                     <div class="op-btn cancel" @click.stop="s_img_link_open = false">{{d_words.tl_popup_link_cancel}}</div>
-                    <div class="op-btn sure" @click.stop="$imgLinkAdd()">{{d_words.tl_popup_link_sure}}</div>
                 </div>
             </div>
         </transition>
@@ -170,13 +170,35 @@
                 num: 0,
                 link_text: '',
                 link_addr: '',
-                link_type: 'link'
+                link_type: 'link',
+                show_warning: false
+            }
+        },
+        computed: {
+            is_link_available() {
+                return  this.link_text.length &&
+                        this.link_addr.length &&
+                        this.isUrlValid(this.link_addr);
             }
         },
         methods: {
+            isUrlValid(userInput = '') {
+                const res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+                if(!res)
+                    return false;
+                else
+                    return true;
+            },
+            $clearWarning() {
+                this.show_warning = false;
+            },
             $imgLinkAdd() {
-                this.$emit('toolbar_left_addlink', this.link_type, this.link_text, this.link_addr);
-                this.s_img_link_open = false;
+                if (this.is_link_available) {
+                    this.$emit('toolbar_left_addlink', this.link_type, this.link_text, this.link_addr);
+                    this.s_img_link_open = false;
+                } else {
+                    this.show_warning = true;
+                }
             },
             $toggle_imgLinkAdd(type) {
                 this.link_type = type;
@@ -219,8 +241,8 @@
             },
             $imgDel(pos) {
                 this.$emit('imgDel', this.img_file[pos]);
-               this.img_file.splice(pos, 1);
-               this.num--;
+                this.img_file.splice(pos, 1);
+                this.num--;
 
                 this.s_img_dropdown_open = false;
             },
@@ -313,8 +335,8 @@
         },
         watch:{
             s_img_link_open(newVlaue) {
-              // fix issue #644
-              this.$parent.$el.style.zIndex = newVlaue ? 1501 : 1500;
+                // fix issue #644
+                this.$parent.$el.style.zIndex = newVlaue ? 1501 : 1500;
             }
         }
     }
@@ -450,7 +472,7 @@
         .input-wrapper
             margin-top 10px
             width 80%
-            border  1px solid #eeece8
+            border 1px solid #eeece8
             text-align left
             margin-left 10%
             height 35px
@@ -462,6 +484,18 @@
                 margin-left 8px
                 border none
                 outline none
+            &.link-addr
+                $warningColor = #ED4A4A
+                .message
+                    display none
+                &.not-valid
+                    border 1px solid $warningColor
+                    .message
+                        display block
+                        color $warningColor
+                        font-weight 400
+                        font-size 12px
+                        line-height 20px
         .op-btn
             width 100px
             height 35px
@@ -474,10 +508,11 @@
             border-radius 2px
             letter-spacing 1px
             font-size 15px
+            & + .op-btn
+                margin-left 5%
         .op-btn.sure
             background #2185d0
             color #fff
-            margin-left 5%
             &:hover
                 opacity 1
         .op-btn.cancel
@@ -485,5 +520,11 @@
             color #bcbcbc
             &:hover
                 color #000
+        .op-btn.disabled
+            border 1px solid #bcbcbc
+            color #bcbcbc
+            background-color: #eee
+            &:hover
+                color #bcbcbc
 
 </style>
