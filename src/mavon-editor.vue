@@ -170,6 +170,12 @@ export default {
             type: String,
             default: 'zh-CN'
         },
+        languageText: {  // 替换语言
+            type: Object,
+            default() {
+                return {}
+            }
+        },
         subfield: {
             type: Boolean,
             default: true
@@ -619,7 +625,8 @@ export default {
             $vm.$render(CONFIG[`help_${lang}`], function(res) {
                 $vm.d_help = res;
             })
-            this.d_words = CONFIG[`words_${lang}`];
+            const d_words = CONFIG[`words_${lang}`];
+            this.d_words = { ...d_words, ...this.languageText };
         },
         // 编辑开关
         editableTextarea() {
