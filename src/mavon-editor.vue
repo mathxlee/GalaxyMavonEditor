@@ -8,6 +8,7 @@
                                @imgTouch="$imgTouch"
                                :image_filter="imageFilter"
                                :link_addr_warning="linkAddrWarning"
+                               :show_add_image_link="showAddImageLink"
                                :class="{'transition': transition}">
                 <slot name="left-toolbar-before" slot="left-toolbar-before" />
                 <slot name="left-toolbar-after" slot="left-toolbar-after" />
@@ -204,6 +205,10 @@ export default {
             default() {
                 return CONFIG.toolbars
             }
+        },
+        showAddImageLink: {
+            type: Boolean,
+            default: true
         },
         html: {// Enable HTML tags in source
             type: Boolean,

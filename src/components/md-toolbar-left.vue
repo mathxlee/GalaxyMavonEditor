@@ -68,7 +68,7 @@
                 aria-hidden="true">
             <transition name="fade">
                 <div  class="op-image popup-dropdown" :class="{'transition': transition}" v-show="s_img_dropdown_open" @mouseleave="$mouseleave_img_dropdown" @mouseenter="$mouseenter_img_dropdown">
-                    <div v-if="toolbars.addimagelink" class="dropdown-item" @click.stop="$toggle_imgLinkAdd('imagelink')"><span>{{d_words.tl_image}}</span></div>
+                    <div v-if="show_add_image_link" class="dropdown-item" @click.stop="$toggle_imgLinkAdd('imagelink')"><span>{{d_words.tl_image}}</span></div>
                     <div class="dropdown-item" style="overflow: hidden">
                         <input type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" @change="$imgAdd($event)" multiple="multiple"/>{{d_words.tl_upload}}
                     </div>
@@ -157,6 +157,10 @@
             link_addr_warning: {
                 type: String,
                 default: ''
+            },
+            show_add_image_link: {
+                type: Boolean,
+                default: true
             },
             image_filter: {
                 type: Function,
