@@ -121,9 +121,11 @@
                     <div class="link-text input-wrapper">
                         <input ref="linkTextInput" type="text" @input="$clearWarning()" v-model="link_text" :placeholder="link_type == 'link' ? d_words.tl_popup_link_text : d_words.tl_popup_img_link_text">
                     </div>
-                    <div :class="[ 'link-addr input-wrapper', { 'not-valid': show_warning } ]">
-                        <input type="text" @input="$clearWarning()" v-model="link_addr" :placeholder="link_type == 'link' ? d_words.tl_popup_link_addr : d_words.tl_popup_img_link_addr">
-                        <p class="message">The link is not valid, please check if you are missing https:// or http://</p>
+                    <div :class="['link-addr input-wrapper', { 'not-valid': show_warning } ]">
+                        <div class="input-inner">
+                            <input type="text" @input="$clearWarning()" v-model="link_addr" :placeholder="link_type == 'link' ? d_words.tl_popup_link_addr : d_words.tl_popup_img_link_addr">
+                        </div>
+                        <p class="message">{{link_addr_warning}}</p>
                     </div>
                     <div :class="[ 'op-btn sure', { disabled: !is_link_available } ]" @click.stop="$imgLinkAdd()">{{d_words.tl_popup_link_sure}}</div>
                     <div class="op-btn cancel" @click.stop="s_img_link_open = false">{{d_words.tl_popup_link_cancel}}</div>
@@ -151,6 +153,10 @@
             d_words: {
                 type: Object,
                 required: true
+            },
+            link_addr_warning: {
+                type: String,
+                default: ''
             },
             image_filter: {
                 type: Function,
@@ -477,6 +483,8 @@
             text-align left
             margin-left 10%
             height 35px
+            .input-inner
+                width 100%
             input
                 height 32px
                 line-height 32px
@@ -490,13 +498,15 @@
                 .message
                     display none
                 &.not-valid
-                    border 1px solid $warningColor
-                    .message
-                        display block
-                        color $warningColor
-                        font-weight 400
-                        font-size 12px
-                        line-height 20px
+                    border none
+                    .input-inner
+                        border 1px solid $warningColor
+                        & + .message
+                            display block
+                            color $warningColor
+                            font-weight 400
+                            font-size 12px
+                            line-height 20px
         .op-btn
             width 100px
             height 35px

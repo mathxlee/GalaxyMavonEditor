@@ -4,7 +4,10 @@
         <div class="v-note-op" v-show="toolbarsFlag" :style="{'background': toolbarsBackground}">
             <v-md-toolbar-left ref="toolbar_left" :editable="editable" :transition="transition" :d_words="d_words"
                                @toolbar_left_click="toolbar_left_click" @toolbar_left_addlink="toolbar_left_addlink" :toolbars="toolbars"
-                               @imgAdd="$imgAdd" @imgDel="$imgDel" @imgTouch="$imgTouch" :image_filter="imageFilter"
+                               @imgAdd="$imgAdd" @imgDel="$imgDel"
+                               @imgTouch="$imgTouch"
+                               :image_filter="imageFilter"
+                               :link_addr_warning="linkAddrWarning"
                                :class="{'transition': transition}">
                 <slot name="left-toolbar-before" slot="left-toolbar-before" />
                 <slot name="left-toolbar-after" slot="left-toolbar-after" />
@@ -233,6 +236,10 @@ export default {
         imageFilter: {
             type: Function,
             default: null
+        },
+        linkAddrWarning: {
+            type: String,
+            default: 'The link is not valid, please check if you are missing https:// or http://'
         },
         imageClick: {
             type: Function,
