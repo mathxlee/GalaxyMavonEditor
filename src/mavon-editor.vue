@@ -9,6 +9,7 @@
                                :image_filter="imageFilter"
                                :link_addr_warning="linkAddrWarning"
                                :show_add_image_link="showAddImageLink"
+                               :multiple="multiple"
                                :class="{'transition': transition}">
                 <slot name="left-toolbar-before" slot="left-toolbar-before" />
                 <slot name="left-toolbar-after" slot="left-toolbar-after" />
@@ -207,6 +208,10 @@ export default {
             }
         },
         showAddImageLink: {
+            type: Boolean,
+            default: true
+        },
+        multiple: {
             type: Boolean,
             default: true
         },

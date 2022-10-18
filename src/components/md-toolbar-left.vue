@@ -63,14 +63,21 @@
         <button :disabled="!editable" type="button" v-if="toolbars.link" @click.stop="$toggle_imgLinkAdd('link')"
                 class="op-icon fa fa-mavon-link" aria-hidden="true"
                 :title="`${d_words.tl_link} (ctrl+l)`"></button>
-        <div :disabled="!editable" :class="{'selected': s_img_dropdown_open}" type="button" v-if="toolbars.imagelink" @mouseleave="$mouseleave_img_dropdown" @mouseenter="$mouseenter_img_dropdown"
+        <label :disabled="!editable" 
+                v-if="!show_add_image_link"
+                class="op-icon fa fa-mavon-picture-o"
+                aria-hidden="true"
+                :title="`${d_words.tl_image}`">
+            <input type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" @change="$imgAdd($event)" :multiple="multiple" style="display: none" />
+        </label>
+        <div :disabled="!editable" v-if="show_add_image_link && toolbars.imagelink" :class="{'selected': s_img_dropdown_open}" type="button" @mouseleave="$mouseleave_img_dropdown" @mouseenter="$mouseenter_img_dropdown"
                 class="op-icon fa fa-mavon-picture-o dropdown dropdown-wrapper"
                 aria-hidden="true">
             <transition name="fade">
                 <div  class="op-image popup-dropdown" :class="{'transition': transition}" v-show="s_img_dropdown_open" @mouseleave="$mouseleave_img_dropdown" @mouseenter="$mouseenter_img_dropdown">
-                    <div v-if="show_add_image_link" class="dropdown-item" @click.stop="$toggle_imgLinkAdd('imagelink')"><span>{{d_words.tl_image}}</span></div>
+                    <div class="dropdown-item" @click.stop="$toggle_imgLinkAdd('imagelink')"><span>{{d_words.tl_image}}</span></div>
                     <div class="dropdown-item" style="overflow: hidden">
-                        <input type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" @change="$imgAdd($event)" multiple="multiple"/>{{d_words.tl_upload}}
+                        <input type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" @change="$imgAdd($event)" :multiple="multiple"/>{{d_words.tl_upload}}
                     </div>
 
                     <div
@@ -152,6 +159,10 @@
             },
             d_words: {
                 type: Object,
+                required: true
+            },
+            multiple: {
+                type: Boolean,
                 required: true
             },
             link_addr_warning: {

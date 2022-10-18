@@ -47,6 +47,7 @@
                           :scrollStyle="true"
                           :transition="true"
                           :codeStyle="codeStyle"
+                          :showAddImageLink="false"
                           box-shadow-style="0 2px 12px 0 rgba(0, 0, 0, 0.1)"
                           toolbars-background="#ffffff"
                           preview-background="#fbfbfb">
