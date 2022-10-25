@@ -134,7 +134,7 @@
                         </div>
                         <p class="message">{{link_addr_warning}}</p>
                     </div>
-                    <div :class="[ 'op-btn sure', { disabled: !is_link_available } ]" @click.stop="$imgLinkAdd()">{{d_words.tl_popup_link_sure}}</div>
+                    <div :class="[ 'op-btn sure', { disabled: !link_addr.length } ]" @click.stop="$imgLinkAdd()">{{d_words.tl_popup_link_sure}}</div>
                     <div class="op-btn cancel" @click.stop="s_img_link_open = false">{{d_words.tl_popup_link_cancel}}</div>
                 </div>
             </div>
@@ -215,11 +215,13 @@
                 this.show_warning = false;
             },
             $imgLinkAdd() {
-                if (this.is_link_available) {
-                    this.$emit('toolbar_left_addlink', this.link_type, this.link_text, this.link_addr);
-                    this.s_img_link_open = false;
-                } else {
-                    this.show_warning = true;
+                if (this.link_addr.length) {
+                    if (this.is_link_available) {
+                        this.$emit('toolbar_left_addlink', this.link_type, this.link_text, this.link_addr);
+                        this.s_img_link_open = false;
+                    } else {
+                        this.show_warning = true;
+                    }
                 }
             },
             $toggle_imgLinkAdd(type) {
